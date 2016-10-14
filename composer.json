@@ -1,0 +1,21 @@
+{
+    "name": "dilsonjlrjr/slim3-annotation",
+    "description": "Module route using annotation",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dilson Rabelo",
+            "email": "dilsonrabelo.unasus@gmail.com"
+        }
+    ],
+    "autoload" :{
+        "psr-4": {
+            "Slim3\\Annotation\\": "src/slim3-annotation",
+            "Test\\": "tests/"
+        }
+    },
+    "require": {
+        "slim/slim": "^3.5"
+    }
+}

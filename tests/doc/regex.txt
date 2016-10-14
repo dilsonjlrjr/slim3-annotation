@@ -1,0 +1,26 @@
+@Route\s*\(\s*["\']([^\'"]*)["\']\s*\)
+
+
+/** ROTA **/
+@([a-zA-Z]*)\s*\(([^)]+)\)
+
+/** PARAMETRO **/
+name\s{0,}=\s{0,}["\']([^\'"]*)["\']
+
+/** GET NAMESPACE CLASS **/
+namespace\s+([\w\\\_-]+)\s*;
+
+/** GET Controller CLASS **/
+class\s+([\w-]+Controller)\s*{
+
+/** GET FILE Controller name **/
+[\w]+Controller\.php
+
+Rotina a desenvolver
+
+1 - Buscar os Controllers Disponíveis
+2 - Checar se o valores estao atualizado com o cache
+	Exemplo de Cache
+	@Controller(name = "NOME", datemodified = "fsafasf")
+3 - Criar estrutura que representa rotas e elementos
+4 - imprimir rotas no cache se necessário
