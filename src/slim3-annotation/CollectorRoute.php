@@ -35,7 +35,7 @@ class CollectorRoute
      * @param array $arrayController
      * @return array
      */
-    public function convertModelRoute(array $arrayController) : array {
+    public function castRoute(array $arrayController) : array {
 
         $arrayReturn = [];
         foreach($arrayController as $itemController) {
@@ -43,7 +43,7 @@ class CollectorRoute
             $fileInclude = file_get_contents($itemController[0]);
 
             preg_match('/namespace\s+([\w\\\_-]+)\s*;/', $fileInclude, $arrayNamespace);
-            preg_match('/class\s+([\w-]+Controller)\s*{/', $fileInclude, $arrayNameClass);
+            preg_match('/class\s+([\w-]+Controller)\s*/', $fileInclude, $arrayNameClass);
 
             $classFullName = $arrayNamespace[1] . '\\' . $arrayNameClass[1];
 
@@ -69,6 +69,8 @@ class CollectorRoute
                     preg_match('/alias\s{0,}=\s{0,}["\']([^\'"]*)["\']/', $arrayRoute[2], $arrayParameterAlias);
 
                     try {
+                        if (count($arrayRoute) == 0)
+                            continue 1;
                         $verbName = $this->validateVerbRoute($arrayRoute[1]);
                     } catch(\Exception $ex) {
                         continue 1;
@@ -84,8 +86,8 @@ class CollectorRoute
 
             }
 
+            ob_get_clean();
         }
-
         return $arrayReturn;
     }
 

@@ -13,18 +13,18 @@ class Slim3Annotation
         $collector = new CollectorRoute();
         $arrayRoute = $collector->getControllers($pathController);
 
-        $arrayRouteObject = $collector->convertModelRoute($arrayRoute);
+        $arrayRouteObject = $collector->castRoute($arrayRoute);
         self::injectRoute($application, $arrayRouteObject);
     }
 
     private static function injectRoute(App $application, array $arrayRouteObject) {
 
         foreach ($arrayRouteObject as $routeModel) {
-            if (is_null($routeModel->getAlias())) {
+            if ($routeModel->getAlias() == null) {
                 $application->map([$routeModel->getVerb()], $routeModel->getRoute(), $routeModel->getClassName() . ':' . $routeModel->getMethodName());
             } else {
                 $application->map([$routeModel->getVerb()], $routeModel->getRoute(), $routeModel->getClassName() . ':' . $routeModel->getMethodName())
-                ->setName($routeModel->getAlias());
+                    ->setName($routeModel->getAlias());
             }
         }
     }
