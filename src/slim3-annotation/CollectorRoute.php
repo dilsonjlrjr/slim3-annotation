@@ -68,6 +68,9 @@ class CollectorRoute
                     //parameter alias
                     preg_match('/alias\s{0,}=\s{0,}["\']([^\'"]*)["\']/', $arrayRoute[2], $arrayParameterAlias);
 
+                    if (count($arrayParameterName) == 0)
+                        continue 1;
+
                     try {
                         if (count($arrayRoute) == 0)
                             continue 1;
