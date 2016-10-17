@@ -62,6 +62,9 @@ class CollectorRoute
                 foreach ($reflactionClass->getMethods() as $methods) {
                     preg_match('/@([a-zA-Z]*)\s*\(([^)]+)\)/', $methods->getDocComment(), $arrayRoute);
 
+                    if (count($arrayRoute) == 0)
+                        continue 1;
+
                     //parameter name
                     preg_match('/name\s{0,}=\s{0,}["\']([^\'"]*)["\']/', $arrayRoute[2], $arrayParameterName);
 
@@ -72,8 +75,6 @@ class CollectorRoute
                         continue 1;
 
                     try {
-                        if (count($arrayRoute) == 0)
-                            continue 1;
                         $verbName = $this->validateVerbRoute($arrayRoute[1]);
                     } catch(\Exception $ex) {
                         continue 1;
