@@ -56,7 +56,7 @@ class RouteModel
     /**
      * @return string
      */
-    public function getVerb(): string
+    public function getVerb()
     {
         return $this->verb;
     }
@@ -72,7 +72,7 @@ class RouteModel
     /**
      * @return string
      */
-    public function getRoute(): string
+    public function getRoute()
     {
         return $this->route;
     }
@@ -88,7 +88,7 @@ class RouteModel
     /**
      * @return string
      */
-    public function getClassName(): string
+    public function getClassName()
     {
         return $this->className;
     }
@@ -104,7 +104,7 @@ class RouteModel
     /**
      * @return string
      */
-    public function getMethodName(): string
+    public function getMethodName()
     {
         return $this->methodName;
     }
@@ -120,7 +120,7 @@ class RouteModel
     /**
      * @return string
      */
-    public function getAlias(): string
+    public function getAlias()
     {
         return $this->alias;
     }

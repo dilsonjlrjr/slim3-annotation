@@ -85,8 +85,7 @@ class CollectorRoute
                 }
 
             }
-
-            ob_get_clean();
+            ob_clean();
         }
         return $arrayReturn;
     }
