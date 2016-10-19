@@ -44,7 +44,7 @@ class ClassController
 
     /**
      * Default Get
-     * @Route(name="/rota6/{id}", )
+     * @Route(name="/rota6/{id}")
      */
     public function method6() {
     }

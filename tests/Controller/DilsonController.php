@@ -14,7 +14,7 @@ class DilsonController
 {
 
     /**
-     * @Get(name="/rota2", alias="rote.id")
+     * @Get(name="/rota2", alias="rote.id", middleware="Test\Middleware\ExampleMiddleware")
      */
     public function method() {
         echo "Hedvan";

@@ -20,11 +20,15 @@ class Slim3Annotation
     private static function injectRoute(App $application, array $arrayRouteObject) {
 
         foreach ($arrayRouteObject as $routeModel) {
-            if ($routeModel->getAlias() == null) {
-                $application->map([$routeModel->getVerb()], $routeModel->getRoute(), $routeModel->getClassName() . ':' . $routeModel->getMethodName());
-            } else {
-                $application->map([$routeModel->getVerb()], $routeModel->getRoute(), $routeModel->getClassName() . ':' . $routeModel->getMethodName())
-                    ->setName($routeModel->getAlias());
+            $route = $application->map([$routeModel->getVerb()], $routeModel->getRoute(), $routeModel->getClassName() . ':' . $routeModel->getMethodName());
+
+            if ($routeModel->getAlias() != null) {
+                $route->setName($routeModel->getAlias());
+            }
+
+            if ($routeModel->getClassMiddleware() != null) {
+                $classMiddleware = $routeModel->getClassMiddleware();
+                $route->add(new $classMiddleware());
             }
         }
     }

@@ -71,6 +71,9 @@ class CollectorRoute
                     //parameter alias
                     preg_match('/alias\s{0,}=\s{0,}["\']([^\'"]*)["\']/', $arrayRoute[2], $arrayParameterAlias);
 
+                    //parameter middleware
+                    preg_match('/middleware\s{0,}=\s{0,}["\']([^\'"]*)["\']/', $arrayRoute[2], $arrayParameterMiddleware);
+
                     if (count($arrayParameterName) == 0)
                         continue 1;
 
@@ -84,8 +87,9 @@ class CollectorRoute
                     $classFullName = $reflactionClass->getName();
                     $methodName = $methods->getName();
                     $aliasName = (count($arrayParameterAlias) > 0 ? $arrayParameterAlias[1] : null);
+                    $classMiddleWare = (count($arrayParameterMiddleware) > 0 ? $arrayParameterMiddleware[1] : null);
 
-                    $arrayReturn[] = new RouteModel($verbName, $routeFullName, $classFullName, $methodName, $aliasName);
+                    $arrayReturn[] = new RouteModel($verbName, $routeFullName, $classFullName, $methodName, $aliasName, $classMiddleWare);
                 }
 
             }

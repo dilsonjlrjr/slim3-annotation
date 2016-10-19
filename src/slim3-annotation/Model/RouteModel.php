@@ -37,6 +37,11 @@ class RouteModel
     private $alias;
 
     /**
+     * @var string
+     */
+    private $classMiddleware;
+
+    /**
      * RouteModel constructor.
      * @param string $verb
      * @param string $route
@@ -44,13 +49,14 @@ class RouteModel
      * @param string $methodName
      * @param string $alias
      */
-    public function __construct($verb, $route, $className, $methodName, $alias = null)
+    public function __construct($verb, $route, $className, $methodName, $alias = null, $classMiddleware = null)
     {
         $this->verb = $verb;
         $this->route = $route;
         $this->className = $className;
         $this->methodName = $methodName;
         $this->alias = $alias;
+        $this->classMiddleware = $classMiddleware;
     }
 
     /**
@@ -131,6 +137,22 @@ class RouteModel
     public function setAlias(string $alias)
     {
         $this->alias = $alias;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClassMiddleware()
+    {
+        return $this->classMiddleware;
+    }
+
+    /**
+     * @param string $classMiddleware
+     */
+    public function setClassMiddleware(string $classMiddleware)
+    {
+        $this->classMiddleware = $classMiddleware;
     }
 
     public function __toArray() {
