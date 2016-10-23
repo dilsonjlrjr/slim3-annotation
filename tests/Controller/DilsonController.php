@@ -14,10 +14,10 @@ class DilsonController
 {
 
     /**
-     * @Get(name="/rota2", alias="rote.id", middleware="{Test\Middleware\ExampleMiddleware    , Test\Middleware\ExampleMiddleware}")
+     * @Get(name="/rota2", alias="rote.id", middleware    =     {"Test\Middleware\ExampleMiddleware"    , "Test\Middleware\ExampleMiddleware"   , "Test\Middleware\ExampleMiddleware"})
      */
     public function method() {
-        echo "Hedvan";
+        echo "Otimo";
     }
 
     /**

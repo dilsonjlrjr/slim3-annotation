@@ -72,13 +72,12 @@ class CollectorRoute
                     preg_match('/alias\s{0,}=\s{0,}["\']([^\'"]*)["\']/', $arrayRoute[2], $arrayParameterAlias);
 
                     //parameter middleware
-                    preg_match('/middleware\s{0,}=\s{0,}["\']([\{]([^\{]*)[\}])["\']/', $arrayRoute[2], $arrayParameterMiddleware);
+                    preg_match('/middleware\s{0,}=\s{0,}\{(.*?)\}/', $arrayRoute[2], $arrayParameterMiddleware);
 
                     if (count($arrayParameterMiddleware) > 0) {
-                        $arrayMiddleware = explode(",", $arrayParameterMiddleware[2]);
+                        preg_match_all('/\"(.*?)\"/', $arrayParameterMiddleware[1], $arrayMiddleware);
                         $arrayParameterMiddleware = [];
-
-                        foreach ($arrayMiddleware as $item) {
+                        foreach ($arrayMiddleware[1] as $item) {
                             if (trim($item) == "" || !class_exists(trim($item)))
                                 throw new \Exception('Annotation of poorly written middleware. Class: ' . $reflactionClass->getName());
 
