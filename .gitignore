@@ -1,2 +1,6 @@
 public
 vendor
+.idea/deployment.xml
+.idea/encodings.xml
+.idea/misc.xml
+.idea/modules.xml
