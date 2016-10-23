@@ -37,19 +37,21 @@ class RouteModel
     private $alias;
 
     /**
-     * @var string
+     * @var array
      */
     private $classMiddleware;
 
     /**
      * RouteModel constructor.
-     * @param string $verb
-     * @param string $route
-     * @param string $className
-     * @param string $methodName
-     * @param string $alias
+     * @param $verb
+     * @param $route
+     * @param $className
+     * @param $methodName
+     * @param null $alias
+     * @param array $classMiddleware
+     *
      */
-    public function __construct($verb, $route, $className, $methodName, $alias = null, $classMiddleware = null)
+    public function __construct($verb, $route, $className, $methodName, $alias = null, $classMiddleware = [])
     {
         $this->verb = $verb;
         $this->route = $route;

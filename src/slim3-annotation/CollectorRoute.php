@@ -72,7 +72,19 @@ class CollectorRoute
                     preg_match('/alias\s{0,}=\s{0,}["\']([^\'"]*)["\']/', $arrayRoute[2], $arrayParameterAlias);
 
                     //parameter middleware
-                    preg_match('/middleware\s{0,}=\s{0,}["\']([^\'"]*)["\']/', $arrayRoute[2], $arrayParameterMiddleware);
+                    preg_match('/middleware\s{0,}=\s{0,}["\']([\{]([^\{]*)[\}])["\']/', $arrayRoute[2], $arrayParameterMiddleware);
+
+                    if (count($arrayParameterMiddleware) > 0) {
+                        $arrayMiddleware = explode(",", $arrayParameterMiddleware[2]);
+                        $arrayParameterMiddleware = [];
+
+                        foreach ($arrayMiddleware as $item) {
+                            if (trim($item) == "" || !class_exists(trim($item)))
+                                throw new \Exception('Annotation of poorly written middleware. Class: ' . $reflactionClass->getName());
+
+                            $arrayParameterMiddleware[] = trim($item);
+                        }
+                    }
 
                     if (count($arrayParameterName) == 0)
                         continue 1;
@@ -87,7 +99,7 @@ class CollectorRoute
                     $classFullName = $reflactionClass->getName();
                     $methodName = $methods->getName();
                     $aliasName = (count($arrayParameterAlias) > 0 ? $arrayParameterAlias[1] : null);
-                    $classMiddleWare = (count($arrayParameterMiddleware) > 0 ? $arrayParameterMiddleware[1] : null);
+                    $classMiddleWare = (count($arrayParameterMiddleware) > 0 ? $arrayParameterMiddleware : null);
 
                     $arrayReturn[] = new RouteModel($verbName, $routeFullName, $classFullName, $methodName, $aliasName, $classMiddleWare);
                 }

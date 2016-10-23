@@ -28,7 +28,9 @@ class Slim3Annotation
 
             if ($routeModel->getClassMiddleware() != null) {
                 $classMiddleware = $routeModel->getClassMiddleware();
-                $route->add(new $classMiddleware());
+                foreach ($classMiddleware as $middleware) {
+                    $route->add(new $middleware());
+                }
             }
         }
     }
