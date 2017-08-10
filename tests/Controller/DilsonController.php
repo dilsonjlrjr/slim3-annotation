@@ -8,7 +8,7 @@ namespace Test\Controller;
  *
  *
  * @Controller
- * @Route("/prefix")
+ * @Route("/prefix3")
  */
 class DilsonController
 {
@@ -29,7 +29,7 @@ class DilsonController
     }
 
     /**
-     * @Post(name="/rota3/{id}", alias="route3.id")
+     * @Post(name="/rota7/{id}", alias="route3.id")
      */
     public function method3() {
     }
@@ -44,13 +44,7 @@ class DilsonController
      * @Delete(name="/rota5/{id}", alias="route5.id")
      */
     public function method5() {
-    }
-
-    /**
-     * Default Get
-     * @Route(name="/rota6/{id}", )
-     */
-    public function method6() {
+        echo "Alisson baitola";
     }
 
 }

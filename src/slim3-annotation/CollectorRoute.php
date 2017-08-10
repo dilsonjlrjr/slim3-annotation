@@ -31,9 +31,9 @@ class CollectorRoute
     }
 
     /**
-     * TODO: Refactore
      * @param array $arrayController
      * @return array
+     * @throws \Exception
      */
     public function castRoute(array $arrayController) : array {
 

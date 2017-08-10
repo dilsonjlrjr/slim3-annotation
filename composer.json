@@ -12,10 +12,14 @@
     "autoload" :{
         "psr-4": {
             "Slim3\\Annotation\\": "src/slim3-annotation",
-            "Test\\": "tests/"
+            "Test\\": "tests/",
+            "Cache\\": "tests/cache/slim3-annotation"
         }
     },
     "require": {
         "slim/slim": "^3.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.3"
     }
 }

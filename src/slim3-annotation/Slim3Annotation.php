@@ -14,24 +14,32 @@ class Slim3Annotation
         $arrayRoute = $collector->getControllers($pathController);
 
         $arrayRouteObject = $collector->castRoute($arrayRoute);
-        self::injectRoute($application, $arrayRouteObject);
+        self::injectRoute($application, $arrayRouteObject, $arrayRoute, $pathCache);
     }
 
-    private static function injectRoute(App $application, array $arrayRouteObject) {
+    private static function injectRoute(App $application, array $arrayRouteObject, array $arrayRoute, string $pathCache) {
 
-        foreach ($arrayRouteObject as $routeModel) {
-            $route = $application->map([$routeModel->getVerb()], $routeModel->getRoute(), $routeModel->getClassName() . ':' . $routeModel->getMethodName());
+        $validate = new CacheAnnotation($pathCache, $application);
 
-            if ($routeModel->getAlias() != null) {
-                $route->setName($routeModel->getAlias());
-            }
+        if ($validate->updatedCache($arrayRoute)) {
+            $validate->loadLastCache();
+        } else {
+            foreach ($arrayRouteObject as $routeModel) {
+                $route = $application->map([$routeModel->getVerb()], $routeModel->getRoute(), $routeModel->getClassName() . ':' . $routeModel->getMethodName());
 
-            if ($routeModel->getClassMiddleware() != null) {
-                $classMiddleware = $routeModel->getClassMiddleware();
-                foreach ($classMiddleware as $middleware) {
-                    $route->add(new $middleware());
+                if ($routeModel->getAlias() != null) {
+                    $route->setName($routeModel->getAlias());
+                }
+
+                if ($routeModel->getClassMiddleware() != null) {
+                    $classMiddleware = $routeModel->getClassMiddleware();
+                    foreach ($classMiddleware as $middleware) {
+                        $route->add(new $middleware());
+                    }
                 }
             }
+
+            $validate->write($arrayRouteObject);
         }
     }
 

@@ -1,6 +1,7 @@
-public
-vendor
-.idea/deployment.xml
-.idea/encodings.xml
-.idea/misc.xml
-.idea/modules.xml
+/public/
+/vendor/
+/.idea/
+/.idea/deployment.xml
+/.idea/encodings.xml
+/.idea/misc.xml
+/.idea/modules.xml
