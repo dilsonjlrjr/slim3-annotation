@@ -8,7 +8,11 @@ use Slim\App;
 class Slim3Annotation
 {
 
+    public static $cache_path;
+
     public static function create(App $application, string $pathController, string $pathCache) {
+
+        self::createAutoloadCache($pathCache);
 
         $collector = new CollectorRoute();
         $arrayRoute = $collector->getControllers($pathController);
@@ -17,11 +21,29 @@ class Slim3Annotation
         self::injectRoute($application, $arrayRouteObject, $arrayRoute, $pathCache);
     }
 
+    public static function createAutoloadCache($pathCache) {
+        self::$cache_path = $pathCache;
+
+        spl_autoload_unregister([ 'Slim3\Annotation\lim3Annotation', 'loadClassAutoload' ]);
+        spl_autoload_register([ 'Slim3\Annotation\Slim3Annotation', 'loadClassAutoload' ]);
+    }
+
+    public static function loadClassAutoload($class) {
+
+        $extension = ".php";
+        $class = str_replace("Cache\\", "", $class);
+        $file = str_replace("\\", DIRECTORY_SEPARATOR, self::$cache_path . DIRECTORY_SEPARATOR . $class . $extension);
+
+        if (file_exists($file)) {
+            include $file;
+        }
+    }
+
     private static function injectRoute(App $application, array $arrayRouteObject, array $arrayRoute, string $pathCache) {
 
         $validate = new CacheAnnotation($pathCache, $application);
 
-        if ($validate->updatedCache($arrayRoute)) {
+        if ($validate->updatedCache($arrayRoute, $arrayRouteObject)) {
             $validate->loadLastCache();
         } else {
             foreach ($arrayRouteObject as $routeModel) {

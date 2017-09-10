@@ -34,7 +34,7 @@ $settings = [
     ],
 ];
 
-$dirPathCache = __DIR__ . '/../cache/slim3-annotation';
+$dirPathCache = __DIR__ . '/../cache/slim3-annotation/Cache';
 
 $app = new \Slim\App($settings);
 

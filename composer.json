@@ -12,8 +12,7 @@
     "autoload" :{
         "psr-4": {
             "Slim3\\Annotation\\": "src/slim3-annotation",
-            "Test\\": "tests/",
-            "Cache\\": "tests/cache/slim3-annotation"
+            "Test\\": "tests/"
         }
     },
     "require": {

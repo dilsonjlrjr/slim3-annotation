@@ -5,11 +5,13 @@ namespace Test;
 
 use Slim3\Annotation\CacheAnnotation;
 use Slim3\Annotation\CollectorRoute;
+use Slim3\Annotation\Slim3Annotation;
 
 class CacheValidateTest extends BaseUnitTests {
 
     public $pathDirectoryController = __DIR__ . '/Controller';
-    public $pathDirectoryCache = __DIR__ . '/cache/slim3-annotation/';
+    public $pathDirectoryCache = __DIR__ . '/cache/slim3-annotation/Cache';
+
 
     /**
      * @test
@@ -18,6 +20,7 @@ class CacheValidateTest extends BaseUnitTests {
 
         $collector = new CollectorRoute();
         $arrayCollector = $collector->getControllers($this->pathDirectoryController);
+        $arrayRouteModel = $collector->castRoute($arrayCollector);
 
         $this->assertEquals(count($arrayCollector), 2);
         foreach ($arrayCollector as $itemArray) {
@@ -26,31 +29,30 @@ class CacheValidateTest extends BaseUnitTests {
             $this->assertTrue(date($itemArray[1]) != false);
 
         }
-        return $arrayCollector;
+        return [ $arrayCollector, $arrayRouteModel ];
 
     }
 
     /**
-     * @param array $arrayCollector
+     * @param array $returnedArray
      * @test
      * @depends shouldGetAllFilesController
-     * @return array
      */
-    public function shouldValidateCache(array $arrayCollector) {
+    public function shouldValidateCache(array $returnedArray) {
+        Slim3Annotation::createAutoloadCache($this->pathDirectoryCache);
+
         $validate = new CacheAnnotation($this->pathDirectoryCache, $this->_app);
-        $this->assertTrue($validate->updatedCache($arrayCollector));
-
-        return $arrayCollector;
+        $this->assertTrue($validate->updatedCache($returnedArray[0], $returnedArray[1]));
     }
 
     /**
      * @test
      * @depends shouldGetAllFilesController
-     *
-     * @param array $arrayCollector
      */
-    public function shouldWriteCache(array $arrayCollector) {
+    public function shouldWriteCache() {
+        Slim3Annotation::createAutoloadCache($this->pathDirectoryCache);
         $collector = new CollectorRoute();
+        $arrayCollector = $collector->getControllers($this->pathDirectoryController);
         $arrayModelControllers = $collector->castRoute($arrayCollector);
 
         $validate = new CacheAnnotation($this->pathDirectoryCache, $this->_app);
@@ -62,10 +64,14 @@ class CacheValidateTest extends BaseUnitTests {
      * @depends shouldGetAllFilesController
      */
     public function shouldLoadLastCache() {
+        Slim3Annotation::createAutoloadCache($this->pathDirectoryCache);
+
         $validate = new CacheAnnotation($this->pathDirectoryCache, $this->_app);
         $lastCache = $validate->loadLastCache();
 
-        unlink($lastCache);
+        $lastCache = str_replace("Cache\\", "", $lastCache);
+        $file = str_replace("\\", DIRECTORY_SEPARATOR, $this->pathDirectoryCache . DIRECTORY_SEPARATOR . $lastCache . '.php');
+        unlink($file);
 
         $response = $this->runRoute('GET', '/prefix3/rota2');
         $this->assertEquals(200, $response->getStatusCode());

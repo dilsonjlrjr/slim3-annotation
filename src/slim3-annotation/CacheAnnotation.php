@@ -56,6 +56,7 @@ class CacheAnnotation
         }
 
         $templateClass = str_replace('{{SLIM3-CONTENT}}', $content, $templateClass);
+        $templateClass = str_replace('{{ARRAY-CONTROLLERS}}', serialize($arrayRouteModel), $templateClass);
 
 
         file_put_contents($this->pathCache . '/' . $namefile . '.php', $templateClass);
@@ -68,7 +69,7 @@ class CacheAnnotation
      * @return bool
      * TODO Refactor chegar a
      */
-    public function updatedCache(array $controlerArray) : bool {
+    public function updatedCache(array $controlerArray, array $arrayRouteObject) : bool {
 
         uasort($controlerArray, [CacheAnnotation::class, "orderArrayByDateModified"]);
 
@@ -86,6 +87,10 @@ class CacheAnnotation
 
 
         if (count($arrayDirectoryRegex) == 0)
+            return false;
+
+
+        if (serialize($arrayRouteObject) !== $this->validateControllerExcluded())
             return false;
 
         uasort($arrayDirectoryRegex, [CacheAnnotation::class, "orderArrayByDateModified"]);
@@ -106,7 +111,7 @@ class CacheAnnotation
         return ($elementA[1] > $elementB[1]) ? -1 : 1;
     }
 
-    public function loadLastCache() {
+    private function loadClassLastCache() {
         $directory = new \RecursiveDirectoryIterator($this->pathCache);
         $regexDirectory = new \RecursiveRegexIterator($directory, '/cache(\d*)\.php/', \RecursiveRegexIterator::GET_MATCH);
 
@@ -120,12 +125,24 @@ class CacheAnnotation
 
         $classCache = "Cache\\" . substr($firstDirectoryRegex[0], 0, strlen($firstDirectoryRegex[0]) - 4);
 
-        require $this->pathCache . DIRECTORY_SEPARATOR . $firstDirectoryRegex[0];
+        return $classCache;
+    }
+
+    public function loadLastCache() {
+
+        $classCache = $this->loadClassLastCache();
 
         $classCacheConcret  = new $classCache();
         $classCacheConcret($this->application);
 
-        return $this->pathCache . '/' . $firstDirectoryRegex[0];
+        return $classCache;
+    }
+
+    public function validateControllerExcluded() {
+        $classCache = $this->loadClassLastCache();
+
+        $classCacheConcret  = new $classCache();
+        return $classCacheConcret->getArrayControllersSerialize();
     }
 
 }
