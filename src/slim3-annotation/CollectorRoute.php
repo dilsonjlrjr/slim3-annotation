@@ -16,7 +16,7 @@ class CollectorRoute
     public function getControllers(string $pathControllers) : array {
 
         $directory = new \RecursiveDirectoryIterator($pathControllers);
-        $regexDirectory = new \RecursiveRegexIterator($directory, '/[\w]+Controller\.php/', \RecursiveRegexIterator::GET_MATCH);
+        $regexDirectory = new \RecursiveRegexIterator($directory, '/[\w]+Controller\.php$/', \RecursiveRegexIterator::GET_MATCH);
 
         $arrayReturn = [];
 
