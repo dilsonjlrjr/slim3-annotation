@@ -10,15 +10,24 @@ class Slim3Annotation
 
     public static $cache_path;
 
-    public static function create(App $application, string $pathController, string $pathCache) {
+
+    /**
+     * @param App $application
+     * @param array $arrayController
+     * @param string $pathCache
+     * @throws \Exception
+     */
+    public static function create(App $application, array $arrayController, string $pathCache) {
 
         self::createAutoloadCache($pathCache);
 
-        $collector = new CollectorRoute();
-        $arrayRoute = $collector->getControllers($pathController);
+        foreach ($arrayController as $pathController) {
+            $collector = new CollectorRoute();
+            $arrayRoute = $collector->getControllers($pathController);
 
-        $arrayRouteObject = $collector->castRoute($arrayRoute);
-        self::injectRoute($application, $arrayRouteObject, $arrayRoute, $pathCache);
+            $arrayRouteObject = $collector->castRoute($arrayRoute);
+            self::injectRoute($application, $arrayRouteObject, $arrayRoute, $pathCache);
+        }
     }
 
     public static function createAutoloadCache($pathCache) {
