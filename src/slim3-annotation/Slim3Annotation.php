@@ -33,7 +33,6 @@ class Slim3Annotation
     public static function createAutoloadCache($pathCache) {
         self::$cache_path = $pathCache;
 
-        spl_autoload_unregister([ 'Slim3\Annotation\lim3Annotation', 'loadClassAutoload' ]);
         spl_autoload_register([ 'Slim3\Annotation\Slim3Annotation', 'loadClassAutoload' ]);
     }
 
