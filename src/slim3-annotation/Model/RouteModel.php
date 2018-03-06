@@ -142,17 +142,17 @@ class RouteModel
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getClassMiddleware()
+    public function getClassMiddleware() : array
     {
         return $this->classMiddleware;
     }
 
     /**
-     * @param string $classMiddleware
+     * @param array $classMiddleware
      */
-    public function setClassMiddleware(string $classMiddleware)
+    public function setClassMiddleware(array $classMiddleware)
     {
         $this->classMiddleware = $classMiddleware;
     }

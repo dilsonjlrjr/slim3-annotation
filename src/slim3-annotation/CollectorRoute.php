@@ -98,7 +98,7 @@ class CollectorRoute
                     $classFullName = $reflactionClass->getName();
                     $methodName = $methods->getName();
                     $aliasName = (count($arrayParameterAlias) > 0 ? $arrayParameterAlias[1] : null);
-                    $classMiddleWare = (count($arrayParameterMiddleware) > 0 ? $arrayParameterMiddleware : null);
+                    $classMiddleWare = (count($arrayParameterMiddleware) > 0 ? $arrayParameterMiddleware : []);
 
                     $arrayReturn[] = new RouteModel($verbName, $routeFullName, $classFullName, $methodName, $aliasName, $classMiddleWare);
                 }
