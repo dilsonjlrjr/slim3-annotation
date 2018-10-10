@@ -21,13 +21,25 @@ class Slim3Annotation
 
         self::createAutoloadCache($pathCache);
 
+        $arrayRoute = [];
+        $arrayRouteObject = [];
+
         foreach ($arrayController as $pathController) {
             $collector = new CollectorRoute();
-            $arrayRoute = $collector->getControllers($pathController);
 
-            $arrayRouteObject = $collector->castRoute($arrayRoute);
-            self::injectRoute($application, $arrayRouteObject, $arrayRoute, $pathCache);
+            if (count($arrayRoute) == 0) {
+                $arrayRoute = $collector->getControllers($pathController);
+            } else {
+                $arrayMerged = $collector->getControllers($pathController);
+
+                foreach ($arrayMerged as $element)
+                    array_push($arrayRoute, $element);
+            }
         }
+
+        $arrayRouteObject = $collector->castRoute($arrayRoute);
+
+        self::injectRoute($application, $arrayRouteObject, $arrayRoute, $pathCache);
     }
 
     public static function createAutoloadCache($pathCache) {

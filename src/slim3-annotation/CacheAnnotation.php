@@ -39,9 +39,15 @@ class CacheAnnotation
 
         $content = "";
 
+        $arrayEscape = [
+            '\\n' => "\\\\n", '\\r' => "\\\\r",
+            '\\t' => "\\\\t", '\\v' => "\\\\v",
+            '\\e' => "\\\\e"
+        ];
+
         foreach ($arrayRouteModel as $routeModel) {
 
-            $content .= '$route = $app->map(["' . $routeModel->getVerb(). '"], "' . $routeModel->getRoute() . '", "' . $routeModel->getClassName() . ':' . $routeModel->getMethodName() . '");' . PHP_EOL;
+            $content .= '$route = $app->map(["' . $routeModel->getVerb(). '"], "' . $routeModel->getRoute() . '", "' . strtr($routeModel->getClassName(), $arrayEscape) . ':' . $routeModel->getMethodName() . '");' . PHP_EOL;
 
             if ($routeModel->getAlias() != null) {
                 $content .= '$route->setName("' . $routeModel->getAlias() . '");' . PHP_EOL;

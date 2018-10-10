@@ -95,6 +95,7 @@ class CollectorRoute
                     }
 
                     $routeFullName = $routePrefix  . $arrayParameterName[1];
+
                     $classFullName = $reflactionClass->getName();
                     $methodName = $methods->getName();
                     $aliasName = (count($arrayParameterAlias) > 0 ? $arrayParameterAlias[1] : null);
